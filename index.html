@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tribun Jogja - Berita Terkini</title>
+	<link rel="shortcut icon" href="https://asset-1.tribunnews.com/img/icon/favicon/favicon.ico" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background: #f4f4f4; }
+        
+        .header { 
+            background: #fefefe; 
+            color: white; 
+            padding: 10px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            flex-wrap: wrap; 
+        }
+        .logo { font-size: 24px; font-weight: bold; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        .nav { display: flex; gap: 15px; }
+        .nav a { color: white; text-decoration: none; font-size: 14px; }
+
+        /* Search Bar Tribun Style */
+        .search-container {
+            position: relative;
+            display: flex;
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(220,53,69,0.3);
+            overflow: hidden;
+            width: 280px;
+            height: 42px;
+            transition: all 0.3s ease;
+        }
+        .search-container:hover { box-shadow: 0 6px 20px rgba(220,53,69,0.4); transform: translateY(-1px); }
+        .search-box {
+            flex: 1; padding: 0 20px 0 45px; border: none; background: transparent;
+            font-size: 15px; color: #333; height: 100%; outline: none;
+        }
+        .search-box::placeholder { color: #999; }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #016fba; font-size: 16px; z-index: 2; }
+        .search-btn {
+            background: linear-gradient(135deg, #016fba, #00a7e5); border: none; padding: 0 20px;
+            color: white; font-size: 14px; font-weight: 600; cursor: pointer; height: 100%;
+            border-radius: 0 25px 25px 0; transition: all 0.3s ease; min-width: 60px;
+        }
+        .search-btn:hover { background: linear-gradient(135deg, #00a7e5, #b21f2d); transform: scale(1.05); }
+
+        .hero { background: #fff; padding: 20px; text-align: center; border-bottom: 3px solid #016fba; }
+        .hero h1 { color: #016fba; margin-bottom: 10px; }
+        .hero p { font-size: 18px; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* NEW Berita Terbaru Layout */
+        .latest-news { margin: 40px 0; }
+        .latest-news h2 { 
+            color: #016fba; margin-bottom: 25px; font-size: 28px; 
+            border-bottom: 3px solid #016fba; padding-bottom: 10px; 
+        }
+
+        /* Headline Berita Utama */
+        .headline { 
+            background: white; border-radius: 12px; overflow: hidden; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+        .headline:hover { transform: translateY(-8px); }
+        .headline-img { 
+            width: 100%; height: 300px; background: linear-gradient(45deg, #016fba, #00a7e5);
+            display: flex; align-items: center; justify-content: center; font-size: 80px; color: rgba(255,255,255,0.8);
+        }
+        .headline-content { padding: 25px; }
+        .headline-title { 
+            font-size: 32px; font-weight: bold; color: #333; line-height: 1.3; margin-bottom: 15px;
+        }
+        .headline-meta { 
+            display: flex; gap: 20px; color: #666; font-size: 14px; margin-bottom: 15px;
+        }
+        .headline-excerpt { color: #555; font-size: 16px; line-height: 1.6; }
+
+        /* Grid Berita Kecil */
+        .news-grid-small { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+        }
+        .news-small { 
+            background: white; border-radius: 10px; overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.3s;
+            display: flex;
+        }
+        .news-small:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .news-small-img { 
+            width: 120px; height: 100px; background: #ddd; 
+            display: flex; align-items: center; justify-content: center; font-size: 24px; color: #999;
+        }
+        .news-small-content { padding: 15px; flex: 1; }
+        .news-small-title { font-size: 16px; font-weight: bold; margin-bottom: 8px; line-height: 1.3; }
+        .news-small-meta { color: #888; font-size: 12px; }
+
+        .icon-section { text-align: center; margin: 40px 0; }
+        .icons { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .icon-item { 
+            background: #016fba; color: white; padding: 20px; border-radius: 50%; 
+            width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; 
+            font-size: 24px; transition: transform 0.3s;
+        }
+        .icon-item:hover { transform: scale(1.1); }
+
+        @media (max-width: 768px) {
+            .header { flex-direction: column; gap: 10px; text-align: center; }
+            .header-right { order: -1; width: 100%; }
+            .search-container { width: 100%; max-width: 300px; }
+            .headline-title { font-size: 24px; }
+            .news-grid-small { grid-template-columns: 1fr; }
+        }
+
+        footer { background: #333; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <header class="header">
+				         		<img src="https://asset-1.tribunnews.com/img/logo/daerah/svg3/tribunjogja.svg" alt="Tribunjogja.com" height="40" style="height:40px;width:auto" />
+        <div class="header-right">
+            <nav class="nav">
+                <a href="#"><i class="fas fa-home"></i> Beranda</a>
+                <a href="#"><i class="fas fa-newspaper"></i> Berita</a>
+                <a href="#"><i class="fas fa-video"></i> Video</a>
+            </nav>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-box" placeholder="Cari berita Jogja..." id="searchInput">
+                <button class="search-btn" onclick="doSearch()">Cari</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Berita Terkini Jogja dan Sekitarnya</h1>
+        <p>Peristiwa, Sepak Bola, Selebriti, Kesehatan, Travel, Hiburan</p>
+    </section>
+
+    <div class="container">
+        <section class="icon-section">
+            <h2 style="margin-bottom: 20px; color: #016fba;">Kategori Populer</h2>
+            <div class="icons">
+                <div class="icon-item" title="Peristiwa"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="icon-item" title="Olahraga"><i class="fas fa-futbol"></i></div>
+                <div class="icon-item" title="Hiburan"><i class="fas fa-star"></i></div>
+                <div class="icon-item" title="Kesehatan"><i class="fas fa-heartbeat"></i></div>
+                <div class="icon-item" title="Travel"><i class="fas fa-plane"></i></div>
+            </div>
+        </section>
+
+        <!-- NEW Berita Terbaru Layout -->
+        <section class="latest-news">
+            <h2>Berita Terbaru</h2>
+            
+            <!-- Headline Utama -->
+            <article class="headline">
+                <div class="headline-img"><i class="fas fa-bolt"></i></div>
+                <div class="headline-content">
+                    <h3 class="headline-title">Kecelakaan Truk Kontainer di Tol Jogja-Solo Tewaskan 5 Orang</h3>
+                    <div class="headline-meta">
+                        <span><i class="fas fa-clock"></i> 1 jam lalu</span>
+                        <span><i class="fas fa-map-marker-alt"></i> Jogja</span>
+                        <span><i class="fas fa-exclamation-triangle"></i> Peristiwa</span>
+                    </div>
+                    <p class="headline-excerpt">Truk kontainer mengalami kecelakaan hebat di tol Solo-Yogyakarta akibat rem blong. Kelima korban dinyatakan meninggal dunia di TKP.</p>
+                </div>
+            </article>
+
+            <!-- Grid Berita Kecil -->
+            <div class="news-grid-small">
+                <article class="news-small">
+                    <div class="news-small-img"><i class="fas fa-futbol"></i></div>
+                    <div class="news-small-content">
+                        <h4 class="news-small-title">PSS Sleman Kalahkan Persib 2-1 di Stadion Mandala</h4>
+                        <div class="news-small-meta"><i class="fas fa-clock"></i> 2 jam lalu</div>
+                    </div>
+                </article>
+                <article class="news-small">
+                    <div class="news-small-img"><i class="fas fa-fire"></i></div>
+                    <div class="news-small-content">
+                        <h4 class="news-small-title">Kebakaran Pasar Beringharjo, 20 Lapak Hangus</h4>
+                        <div class="news-small-meta"><i class="fas fa-clock"></i> 3 jam lalu</div>
+                    </div>
+                </article>
+                <article class="news-small">
+                    <div class="news-small-img"><i class="fas fa-star"></i></div>
+                    <div class="news-small-content">
+                        <h4 class="news-small-title">Raffi Ahmad Hadir di Event Kuliner Jogja</h4>
+                        <div class="news-small-meta"><i class="fas fa-clock"></i> 4 jam lalu</div>
+                    </div>
+                </article>
+                <article class="news-small">
+                    <div class="news-small-img"><i class="fas fa-car-crash"></i></div>
+                    <div class="news-small-content">
+                        <h4 class="news-small-title">Macet Total di Ringroad Utara Akibat Tabrakan</h4>
+                        <div class="news-small-meta"><i class="fas fa-clock"></i> 5 jam lalu</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Tribun Jogja. Semua hak dilindungi.</p>
+    </footer>
+
+    <script>
+        function doSearch() {
+            const query = document.getElementById('searchInput').value;
+            if (query.trim()) {
+                window.open('https://www.google.com/search?q=' + encodeURIComponent('site:jogja.tribunnews.com ' + query), '_blank');
+            }
+        }
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') doSearch();
+        });
+    </script>
+</body>
+</html>
